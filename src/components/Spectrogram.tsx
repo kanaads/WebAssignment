@@ -4,8 +4,8 @@ type Props = { onError?: (msg: string) => void };
 
 export default function Spectrogram({ onError }: Props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const audioCtxRef = useRef<any>(null);       // was AudioContext | null
-  const analyserRef = useRef<any>(null);       // was AnalyserNode | null
+  const audioCtxRef = useRef<any>(null);      
+  const analyserRef = useRef<any>(null);       
   const streamRef = useRef<any>(null);
   const rafRef = useRef<number>(0);
   const paletteRef = useRef<Uint8ClampedArray | null>(null);
@@ -82,7 +82,6 @@ export default function Spectrogram({ onError }: Props) {
       if (analyserRef.current) analyserRef.current.disconnect();
       if (ro) ro.disconnect();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const draw = () => {

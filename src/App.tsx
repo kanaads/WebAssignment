@@ -9,7 +9,7 @@ export default function App() {
   const ctxRef = useRef<AudioContext | null>(null);
   const sourceRef = useRef<MediaStreamAudioSourceNode | null>(null);
   const workletRef = useRef<AudioWorkletNode | null>(null);
-  const muteRef = useRef<GainNode | null>(null); // silent monitor
+  const muteRef = useRef<GainNode | null>(null); 
 
   useEffect(() => {
     if (location.protocol !== "https:" && location.hostname !== "localhost") {
@@ -91,11 +91,16 @@ export default function App() {
             <div className="black-fill" />
           ) : (
             <>
+              {/* Embed Chrome Music Lab Spectrogram here. The iframe will handle microphone permission */}
+              <iframe
+                ref={iframeRef}
+                className="spectro-embed"
+                title="Chrome Music Lab Spectrogram"
+                src="https://musiclab.chromeexperiments.com/Spectrogram/"
+                allow="microphone; autoplay; fullscreen"
+              />
+
               
-              {/* overlay text on top */}
-              <div className="viz-text" aria-hidden="true">
-                [Visualization Goes<br />Here]
-              </div>
             </>
           )}
         </div>
