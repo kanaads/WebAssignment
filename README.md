@@ -98,13 +98,13 @@ If a local spectrogram build is desired, copy build artifacts into public/spectr
 
 ## Future Improvements
 
-- Replace iframe with a native spectrogram for tighter control and auto-start.
+- Replace iframe with a native spectrogram for tighter control and auto-start. [5-6 Hrs]
 
-- Add unit/UI tests for Start/Stop and permission flows.
+- Add unit/UI tests for Start/Stop and permission flows. [3-4 Hrs]
 
-- Extract design tokens (colors/typography/spacing) into a theme for easier theming/dark mode.
+- Extract design tokens (colors/typography/spacing) into a theme for easier theming/dark mode. [2-3 Hrs]
 
-- Enhance accessibility (focus management, ARIA live regions for status).
+- Enhance accessibility (focus management, ARIA live regions for status). [2-3 Hrs]
 
 
 ## Citation 
