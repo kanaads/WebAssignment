@@ -91,7 +91,7 @@ export default function App() {
             <div className="black-fill" />
           ) : (
             <>
-              {/* Embed Chrome Music Lab Spectrogram here. The iframe will handle microphone permission */}
+              {/* Embed Chrome Music Lab Spectrogram here */}
               <iframe
                 ref={iframeRef}
                 className="spectro-embed"

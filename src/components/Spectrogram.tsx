@@ -2,6 +2,8 @@ import React, { useEffect, useRef } from "react";
 
 type Props = { onError?: (msg: string) => void };
 
+
+//Custom Spectrogram component
 export default function Spectrogram({ onError }: Props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const audioCtxRef = useRef<any>(null);      

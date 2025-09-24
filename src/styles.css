@@ -1,9 +1,9 @@
 :root{
-  --page:#c7f3ff;         /* light blue page */
-  --frame:#A9BC43;        /* olive border */
-  --viz-idle:#000;        /* black (start) */
+  --page:#c7f3ff;         
+  --frame:#A9BC43;      
+  --viz-idle:#000;        
   --viz-rec:#d9bf9b; 
-  --purple:#C3BADA;     /* tan (recording) */
+  --purple:#C3BADA;   
   --purple-shadow:#390040;
   --green:#4EED59;
   --green-shadow:#2c6a2d;
@@ -21,7 +21,6 @@ body{
   justify-content:center;
   min-height:100vh;
 
-  /* <- everything except heading uses this font */
   font-family: "Gloria Hallelujah", cursive, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
 }
 
@@ -31,28 +30,28 @@ body{
   text-align:center;
 }
 
-/* Heading stays in Metamorphous */
+/* Heading in Metamorphous */
 .title{
   font-family:"Metamorphous", serif;
-  font-size:18;         /* bump to match mock scale */
+  font-size:18;     
   font-weight:400;
   margin:0 0 10px;
   letter-spacing:.3px;
 }
 
-/* ===== Visualization Panel (no inner gaps) ===== */
+/*  Visualization Panel */
 .viz-frame{
   position: relative;
-  width: min(1120, 110);   /* wider to match your screenshots */
+  width: min(1120, 110);   
   height: 600px;
   margin: 14px auto 18px;
 
-  border: 14px solid var(--frame); /* the green border IS the container edge */
+  border: 14px solid var(--frame);
   border-radius: 12px;
-  overflow: hidden;               /* clip contents to the rounded border */
+  overflow: hidden;            
 }
 
-/* Fill the panel fully; background set by state below */
+
 .viz-inner{
   position: absolute;
   inset: 0;
@@ -61,13 +60,10 @@ body{
   overflow: hidden;
 }
 
-/* Idle = pure black fill (flush to border) */
 .viz-frame.idle .viz-inner{ background: var(--viz-idle); }
 
-/* Recording = tan background behind the spectrogram */
 .viz-frame.recording .viz-inner{ background: var(--viz-rec); }
 
-/* Spectrogram iframe occupies the whole panel (flush) */
 .spectro-embed{
   position: absolute;
   inset: 0;
@@ -77,7 +73,6 @@ body{
   z-index: 1;
 }
 
-/* Centered overlay text ABOVE iframe; same hand-written font */
 .viz-text{
   position: absolute;
   inset: 0;
@@ -86,17 +81,17 @@ body{
   justify-content: center;
   text-align: center;
 
-  font-size: 36px;        /* matches your screenshot scale */
+  font-size: 36px;     
   line-height: 1.25;
   letter-spacing: .5px;
   color: #3a3a3a;
   opacity: .9;
 
   z-index: 2;
-  pointer-events: none;   /* keep iframe clickable */
+  pointer-events: none;
 }
 
-/* ===== Status + Buttons (hand-written font already global) ===== */
+/* Status + Buttons  */
 .status{
   margin: 8px 0 16px;
   font-size: 20px;
