@@ -1,69 +1,115 @@
-# React + TypeScript + Vite
+## Web Assessment
+### Overview
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+This project implements the provided Figma design for the Interview Test Web Page, adds microphone access per the web.dev tutorial, and renders the Chrome Music Lab Spectrogram directly inside the visualization panel via an iframe.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+I initially attempted to vendor and build the open-source spectrogram locally, but the upstream repo relies on a legacy gulp 3 / node-sass 3 / jade toolchain that’s incompatible with modern environments (Node 22, Python 3). The build expects Python 2.7 for node-gyp and also encounters Windows binary issues with imagemin tools (gifsicle/jpegtran/optipng EBUSY). Given these constraints, embedding the official spectrogram page was the most reliable approach while keeping the UI faithful to Figma.
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Requirements
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Node.js (LTS recommended)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- npm or pnpm
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- Modern browser (Chrome/Edge/Safari) running over HTTPS or localhost (required for mic)
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Setup
+### install dependencies
+npm install
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### start Vite dev server
+npm run dev
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Run on Web
+### production build
+npm run build
+
+### preview the production build locally
+npm run preview
+
+
+Open the printed URL. Click Start Recording, grant microphone permission, then the Chrome Music Lab Spectrogram appears inside the panel (embedded via iframe).
+
+## Implementation Details
+- Start/Stop Controls
+
+- Two-state flow matching Figma (Idle → Recording).
+
+- Status line updates when recording begins.
+
+- Microphone Access (web.dev pattern)
+
+- Code path: public/worklets/processor.js (AudioWorklet) + usage in src/App.tsx.
+
+
+Spectrogram
+
+The visualization panel embeds the official Chrome Music Lab Spectrogram via an iframe so users can start mic capture within it.
+
+Source: https://musiclab.chromeexperiments.com/Spectrogram/ (permissions allowed via allow="microphone").
+
+(Attempted vendor build noted in Architecture below.)
+
+## Architecture
+
+WebAssignment/
+
+├─ public/
+
+│  ├─ worklets/processor.js           # AudioWorklet (pass-through)
+
+│  └─ spectrogram/                    # (optional) local CML build output if used
+
+├─ src/
+
+│  ├─ App.tsx                         # main page and Start/Stop logic
+
+│  ├─ main.tsx
+
+│  ├─ styles.css                      # Figma-faithful styles (green frame = container edge)
+
+│  └─ vite-env.d.ts
+
+├─ vendor/                            # attempted integration of open-source spectrogram
+
+│  └─ chrome-music-lab/
+
+│     └─ spectrogram/                 # upstream gulp project (not served directly)
+
+│        ├─ src/                      # jade/sass/js (legacy toolchain)
+
+│        ├─ gulpfile.js
+
+│        └─ build/                    # if built, copy to /public/spectrogram/
+
+├─ index.html                         # loads Metamorphous + Gloria Hallelujah fonts
+
+└─ tsconfig.json
+
+## Assumptions
+
+Fonts: Metamorphous (heading) and Gloria Hallelujah (all other text) loaded via Google Fonts in index.html.
+
+The spectrogram is rendered via iframe (no “[Visualization Goes Here]” overlay).
+
+If a local spectrogram build is desired, copy build artifacts into public/spectrogram/ and change the iframe src to /spectrogram/index.html.
+
+## Future Improvements
+
+- Replace iframe with a native spectrogram for tighter control and auto-start.
+
+- Add unit/UI tests for Start/Stop and permission flows.
+
+- Extract design tokens (colors/typography/spacing) into a theme for easier theming/dark mode.
+
+- Enhance accessibility (focus management, ARIA live regions for status).
+
+
+## Citation 
+-https://musiclab.chromeexperiments.com/Spectrogram/
+
+-https://github.com/googlecreativelab/chrome-music-lab/tree/master/spectrogram
+
+-Generative AI (ChatGPT) was used to help draft documentation and suggest code structure/styling patterns. All code was reviewed, edited, and tested by me.
